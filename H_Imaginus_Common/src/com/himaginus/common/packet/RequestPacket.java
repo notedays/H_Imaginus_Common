@@ -1,26 +1,29 @@
 package com.himaginus.common.packet;
 
-import java.nio.ByteBuffer;
+import java.io.Serializable;
 
-import com.himaginus.common.util.CommonUtil;
-
-public class RequestPacket {
-	private int requestCode;
+public class RequestPacket implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	public final static int TEST = 1;
+	
+	private int code;
 	private String context;
 	
 	public RequestPacket() {}
-	
-	public RequestPacket(int requestCode, String context) {
-		this.requestCode = requestCode;
+	public RequestPacket(int code, String context) {
+		this.code = code;
 		this.context = context;
 	};
 	
-	public int getRequestCode() {
-		return requestCode;
+	
+	// # Getter / Setter ========================================================
+	public int getCode() {
+		return code;
 	}
 
-	public void setRequestCode(int requestCode) {
-		this.requestCode = requestCode;
+	public void setCode(int code) {
+		this.code = code;
 	}
 
 	public String getContext() {
@@ -29,15 +32,5 @@ public class RequestPacket {
 
 	public void setContext(String context) {
 		this.context = context;
-	}
-
-	public byte[] toByteArray() {
-		byte[] ctxByteArray = CommonUtil.stringToByteArray(context);
-		int capacity = CommonUtil.getLengthDataSize() + 4 + ctxByteArray.length;
-		ByteBuffer buffer = ByteBuffer.allocate(capacity);
-		buffer.putInt(capacity - CommonUtil.getLengthDataSize());
-		buffer.putInt(requestCode);
-		buffer.put(ctxByteArray);
-		return buffer.array();
 	}
 }

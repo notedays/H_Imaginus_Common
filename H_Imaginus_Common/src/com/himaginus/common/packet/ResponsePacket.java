@@ -1,93 +1,52 @@
 package com.himaginus.common.packet;
 
-import java.lang.reflect.Method;
-import java.nio.ByteBuffer;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.himaginus.common.data.ResponseData;
-import com.himaginus.common.util.CommonUtil;
 
-public class ResponsePacket {
-	 protected int responseCode;
-	    private List<ResponseData> responseData = new ArrayList<ResponseData>();
+public class ResponsePacket implements Serializable {
 
-//	    public int getResponseProcessorType() {
-//	        int responseProcessor = RESPONSE_PROCESSOR_NONE;
-//	        return responseProcessor;
-//	    }
+	private static final long serialVersionUID = 1L;
 
-	    public int getResponseCode() {
-	        return responseCode;
-	    }
+	public final static int TEST = 1;
 
-	    public void setResponseCode(int responseCode) {
-	        this.responseCode = responseCode;
-	    }
+	private int code;
+	private boolean success;
+	private List<ResponseData> dataList = new ArrayList<ResponseData>();
 
-	    public void addResponseData(ResponseData response) {
-	        responseData.add(response);
-	    }
+	public int getCode() {
+		return code;
+	}
 
-	    public List<ResponseData> getResponseDataList() {
-	        return responseData;
-	    }
+	public void setCode(int code) {
+		this.code = code;
+	}
+	
+	public boolean isSuccess() {
+		return success;
+	}
 
-	    public static ResponsePacket fromByteArray(byte[] responseByte) {
-	        return fromByteArray(responseByte, true, ResponsePacket.class);
-	    }
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
 
-	    public static <T extends ResponsePacket> T fromByteArray(byte[] responseByte, Class<T> typeClass) {
-	        return fromByteArray(responseByte, true, typeClass);
-	    }
-
-	    public static <T extends ResponsePacket> T fromByteArray(byte[] responseByte, boolean skipLengthData, Class<T> typeClass) {
-	        ByteBuffer bb = ByteBuffer.wrap(responseByte);
-	        T returnPacket = null;
-	        try {
-	            returnPacket = typeClass.newInstance();
-	        } catch (Exception e) {
-	        }
-	        if (!skipLengthData) {
-	            bb.getInt();
-	        }
-	        returnPacket.setResponseCode(bb.getInt());
-	        int byteDataSize = bb.getInt();
-	        for (int i = 0; i < byteDataSize; i++) {
-	            ResponseData responseData = null;
-	            try {
-	                Method m = typeClass.getDeclaredMethod("getEmptyMafiaResponseData", Integer.TYPE);
-	                m.setAccessible(true);
-
-	                responseData = (ResponseData) m.invoke(null, returnPacket.getResponseCode());
-	            } catch (Exception e) {
-	                RuntimeException rte = new RuntimeException(e);
-	            }
-	            responseData.setFromByteBuffer(bb);
-	            returnPacket.addResponseData(responseData);
-	        }
-	        return returnPacket;
-	    }
-
-	    static protected ResponseData getEmptyResponseData(int responseCode) {
-	        return null;
-	    }
-
-	    public byte[] toByteArray() {
-	        int capacity = CommonUtil.getLengthDataSize() + 8;
-	        List<byte[]> byteDataList = new ArrayList<byte[]>();
-	        for (ResponseData subData : responseData) {
-	            byte[] curByteData = subData.toByteArray();
-	            capacity = capacity + curByteData.length;
-	            byteDataList.add(curByteData);
-	        }
-	        ByteBuffer buffer = ByteBuffer.allocate(capacity);
-	        buffer.putInt(capacity - CommonUtil.getLengthDataSize());
-	        buffer.putInt(responseCode);
-	        buffer.putInt(byteDataList.size());
-	        for (byte[] curByteData : byteDataList) {
-	            buffer.put(curByteData);
-	        }
-	        return buffer.array();
-	    }
+	public void addResponseData(ResponseData response) {
+		dataList.add(response);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends ResponseData> List<T> getResponseDataList() {
+		return (List<T>) dataList;
+	}
+	
+	/**
+	 * @param index : List에서 뽑아낼 데이터의 번지수
+	 * @return T : <T> return T
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends ResponseData> T getData(int index){
+		return (T) dataList.get(index);
+	}
 }

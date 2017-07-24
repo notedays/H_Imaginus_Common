@@ -1,8 +1,6 @@
 package com.himaginus.common.data;
 
-import java.nio.ByteBuffer;
+import java.io.Serializable;
 
-public interface ResponseData {
-	public byte[] toByteArray();
-	public void setFromByteBuffer(ByteBuffer bb);
+public interface ResponseData extends Serializable{
 }
