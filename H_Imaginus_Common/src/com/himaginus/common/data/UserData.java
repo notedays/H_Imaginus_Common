@@ -1,27 +1,63 @@
 package com.himaginus.common.data;
 
-import java.util.Collection;
-import java.util.Set;
-
 public class UserData implements ResponseData {
 
 	private static final long serialVersionUID = 1L;
 
-	// # Data for User
+	// # Data Of User
 	private int id;
-	private String nickname;
-	private String birth;
+	private String name;
+	private int birth;
+	private int gender;
 	private String phoneNumber;
-	
-	// # Data for Player
-	private String title;
-	private int exp_math;
-	private int exp_science;
-	private int exp_language;
-	private int exp_music;
-	private int exp_art;
-	private Set<Collection> collectionSet;
-	
-	private int morality;
-	
+	private String deviceKey;
+
+	// # Getter / Setter
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getBirth() {
+		return birth;
+	}
+
+	public void setBirth(int birth) {
+		this.birth = birth;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getDeviceKey() {
+		return deviceKey;
+	}
+
+	public void setDeviceKey(String deviceKey) {
+		this.deviceKey = deviceKey;
+	}
 }
