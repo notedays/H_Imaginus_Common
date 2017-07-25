@@ -5,8 +5,11 @@ import java.io.Serializable;
 public class RequestPacket implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	public final static int TEST = 1;
+	// # Codes
+	public final static int TEST = 0;
+	public final static int REGIST = 1;
 	
+	// # 변수들
 	private int code;
 	private String context;
 	

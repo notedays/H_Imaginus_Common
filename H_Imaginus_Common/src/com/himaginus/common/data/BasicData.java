@@ -4,17 +4,17 @@ public class BasicData<T> implements ResponseData {
 
 	private static final long serialVersionUID = 1L;
 	
-	private T msg;
+	private T value;
 
 	public BasicData() {}
-	public BasicData(T msg) {
-		this.msg = msg;
+	public BasicData(T value) {
+		this.value = value;
 	}
 	
-	public T getMsg() {
-		return msg;
+	public T getValue() {
+		return value;
 	}
-	public void setMsg(T msg) {
-		this.msg = msg;
+	public void setValue(T value) {
+		this.value = value;
 	}
 }

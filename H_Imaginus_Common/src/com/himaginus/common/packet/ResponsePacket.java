@@ -10,10 +10,11 @@ public class ResponsePacket implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static int TEST = 1;
-
+	public final static int TEST = 0;
+	public final static int REGIST = 1;
+	
 	private int code;
-	private boolean success;
+	private boolean success = true;
 	private List<ResponseData> dataList = new ArrayList<ResponseData>();
 
 	public int getCode() {
@@ -36,14 +37,13 @@ public class ResponsePacket implements Serializable {
 		dataList.add(response);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <T extends ResponseData> List<T> getResponseDataList() {
-		return (List<T>) dataList;
+	public List<ResponseData> getResponseDataList() {
+		return dataList;
 	}
 	
 	/**
-	 * @param index : List에서 뽑아낼 데이터의 번지수
-	 * @return T : <T> return T
+	 * @param index : the Index that you want to get a data from List
+	 * @return T
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends ResponseData> T getData(int index){
