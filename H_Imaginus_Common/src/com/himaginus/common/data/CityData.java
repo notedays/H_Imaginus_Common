@@ -2,7 +2,7 @@ package com.himaginus.common.data;
 
 import com.himaginus.common.data.ResponseData;
 
-public class CityData implements ResponseData {
+public class CityData extends ResponseData {
 
 	private static final long serialVersionUID = 1L;
 

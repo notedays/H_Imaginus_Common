@@ -1,6 +1,6 @@
 package com.himaginus.common.data;
 
-public class BasicData<T> implements ResponseData {
+public class BasicData<T> extends ResponseData {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -1,8 +1,11 @@
 package com.himaginus.common.packet;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
-public class RequestPacket implements Serializable{
+public class RequestPacket implements Externalizable{
 	private static final long serialVersionUID = 1L;
 	
 	// # Codes
@@ -19,6 +22,18 @@ public class RequestPacket implements Serializable{
 		this.context = context;
 	};
 	
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeInt(code);
+		out.writeUTF(context);
+		out.flush();
+	}
+	
+	@Override
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		code = in.readInt();
+		context = in.readUTF();
+	}
 	
 	// # Getter / Setter ========================================================
 	public int getCode() {
@@ -36,4 +51,5 @@ public class RequestPacket implements Serializable{
 	public void setContext(String context) {
 		this.context = context;
 	}
+	
 }
