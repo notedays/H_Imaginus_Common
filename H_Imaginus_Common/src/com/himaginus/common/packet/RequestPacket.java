@@ -5,12 +5,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-public class RequestPacket implements Externalizable{
+public class RequestPacket implements Externalizable, RequestCode{
 	private static final long serialVersionUID = 1L;
-	
-	// # Codes
-	public final static int TEST = 0;
-	public final static int REGIST = 1;
 	
 	// # 변수들
 	private int code;

@@ -30,7 +30,8 @@ public class ResponseData implements Externalizable {
 					List<?> list = (List<?>) field.get(this);
 					writeData(int.class, list.size(), out);
 					for(int i=0; i< list.size(); i++){
-						writeData(list.get(i).getClass(), list.get(i), out);
+						Object obj = list.get(i);
+						writeData(obj.getClass(), obj, out);
 					}
 				}else if( fieldClass.isAssignableFrom(Map.class) ){
 					Map<?,?> map = (Map<?, ?>) field.get(this);
@@ -82,15 +83,16 @@ public class ResponseData implements Externalizable {
 			try {
 				field.setAccessible(true);
 				if( checkIsTransField(field) ) continue;
-					
-				if( field.getType().isAssignableFrom(List.class) ){
+				
+				Class<?> fieldClass = field.getType();
+				if( fieldClass.isAssignableFrom(List.class) ){
 					int size = in.readInt();
 					List<Object> list = (List<Object>) field.get(this);
 					Type[] types = ((ParameterizedType)field.getGenericType()).getActualTypeArguments();
 					for (int i = 0; i < size; i++) {
 						list.add(readData(Class.forName(types[0].getTypeName()), in));
 					}
-				}else if( field.getType().isAssignableFrom(Map.class)){
+				}else if( fieldClass.isAssignableFrom(Map.class)){
 					int size = in.readInt();
 					Map<Object, Object> map = (Map<Object, Object>) field.get(this);
 					Type[] types = ((ParameterizedType)field.getGenericType()).getActualTypeArguments();
@@ -101,7 +103,7 @@ public class ResponseData implements Externalizable {
 						map.put(key, value);
 					}
 				}else{
-					field.set(this, readData(field.getType(), in));
+					field.set(this, readData(fieldClass, in));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

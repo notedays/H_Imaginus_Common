@@ -9,25 +9,22 @@ import java.util.List;
 
 import com.himaginus.common.data.ResponseData;
 
-public class ResponsePacket implements Externalizable {
+public class ResponsePacket implements Externalizable, ResponseCode {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static int TEST = 0;
-	public final static int REGIST = 1;
-	
 	private int code;
 	private boolean success = true;
 	private List<ResponseData> dataList = new ArrayList<ResponseData>();
-	
+
 	@Override
 	public void writeExternal(ObjectOutput out) throws IOException {
 		out.writeInt(code);
 		out.writeBoolean(success);
 		out.writeInt(dataList.size());
-		if( dataList.size() > 0){
+		if (dataList.isEmpty()) {
 			out.writeUTF(dataList.get(0).getClass().getName());
-			for(ResponseData data : dataList){
+			for (ResponseData data : dataList) {
 				data.writeExternal(out);
 			}
 		}
@@ -39,11 +36,11 @@ public class ResponsePacket implements Externalizable {
 		code = in.readInt();
 		success = in.readBoolean();
 		int dataSize = in.readInt();
-		if(dataSize > 0){
+		if (dataSize > 0) {
 			Class<?> dataClass = Class.forName(in.readUTF());
 			for (int i = 0; i < dataSize; i++) {
 				try {
-					ResponseData data = (ResponseData) dataClass.newInstance(); 
+					ResponseData data = (ResponseData) dataClass.newInstance();
 					data.readExternal(in);
 					dataList.add(data);
 				} catch (Exception e) {
@@ -52,16 +49,16 @@ public class ResponsePacket implements Externalizable {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param index : the Index that you want to get a data from List
 	 * @return T
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends ResponseData> T getData(int index){
+	public <T extends ResponseData> T getData(int index) {
 		return (T) dataList.get(index);
 	}
-	
+
 	// # Getter / Setter 
 	public int getCode() {
 		return code;
@@ -70,7 +67,7 @@ public class ResponsePacket implements Externalizable {
 	public void setCode(int code) {
 		this.code = code;
 	}
-	
+
 	public boolean isSuccess() {
 		return success;
 	}
@@ -82,9 +79,9 @@ public class ResponsePacket implements Externalizable {
 	public void addResponseData(ResponseData response) {
 		dataList.add(response);
 	}
-	
+
 	public List<ResponseData> getResponseDataList() {
 		return dataList;
 	}
-	
+
 }
