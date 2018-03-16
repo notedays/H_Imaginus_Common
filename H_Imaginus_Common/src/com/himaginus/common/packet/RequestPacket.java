@@ -9,7 +9,7 @@ public class RequestPacket implements Externalizable, RequestCode{
 	private static final long serialVersionUID = 1L;
 	
 	// # 변수들
-	private int code;
+	private int code = -1;
 	private String context;
 	
 	public RequestPacket() {}

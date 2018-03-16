@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.himaginus.common.data.ResponseData;
@@ -13,10 +14,16 @@ public class ResponsePacket implements Externalizable, ResponseCode {
 
 	private static final long serialVersionUID = 1L;
 
-	private int code;
+	private int code = -1;
 	private boolean success = true;
 	private List<ResponseData> dataList = new ArrayList<ResponseData>();
-
+	
+	public ResponsePacket() {
+	}
+	public ResponsePacket(int responseCode) {
+		this.code = responseCode;
+	}
+	
 	@Override
 	public void writeExternal(ObjectOutput out) throws IOException {
 		out.writeInt(code);
@@ -64,20 +71,28 @@ public class ResponsePacket implements Externalizable, ResponseCode {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public ResponsePacket setCode(int code) {
 		this.code = code;
+		return this;
 	}
 
 	public boolean isSuccess() {
 		return success;
 	}
 
-	public void setSuccess(boolean success) {
+	public ResponsePacket setSuccess(boolean success) {
 		this.success = success;
+		return this;
 	}
 
-	public void addResponseData(ResponseData response) {
+	public ResponsePacket addResponseData(ResponseData response) {
 		dataList.add(response);
+		return this;
+	}
+	
+	public ResponsePacket addAll(Collection<? extends ResponseData> datas) {
+		dataList.addAll(datas);
+		return this;
 	}
 
 	public List<ResponseData> getResponseDataList() {

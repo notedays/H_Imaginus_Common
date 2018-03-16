@@ -54,7 +54,7 @@ public class TestUtil {
 	 * @param request
 	 */
 	public static void loadRequestMap(RequestCode request) {
-		for (Field field : request.getClass().getDeclaredFields()) {
+		for (Field field : request.getClass().getFields()) {
 			try {
 				field.setAccessible(true);
 				if (field.getName() != null && !field.getName().equals("requestCode")) {
@@ -64,7 +64,7 @@ public class TestUtil {
 			}
 		}
 
-		for (Field field : request.getClass().getSuperclass().getDeclaredFields()) {
+		for (Field field : request.getClass().getSuperclass().getFields()) {
 			try {
 				field.setAccessible(true);
 				if (field.getName() != null && !field.getName().equals("requestCode")) {
@@ -81,7 +81,7 @@ public class TestUtil {
 	 * @param response
 	 */
 	public static void loadResponseMap(ResponseCode response) {
-		for (Field field : response.getClass().getDeclaredFields()) {
+		for (Field field : response.getClass().getFields()) {
 			try {
 				field.setAccessible(true);
 				if (field.getName() != null && !field.getName().equals("responseCode")) {
@@ -91,7 +91,7 @@ public class TestUtil {
 			}
 		}
 
-		for (Field field : response.getClass().getSuperclass().getDeclaredFields()) {
+		for (Field field : response.getClass().getSuperclass().getFields()) {
 			try {
 				field.setAccessible(true);
 				if (field.getName() != null && !field.getName().equals("responseCode")) {
